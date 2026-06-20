@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useStore from "./store/store";
 import MovieCard from "./components/MovieCard";
+import Favorites from "./components/Favorites"
 
 function App() {
   const [input, setInput] = useState("");
@@ -33,6 +34,13 @@ function App() {
         >
           검색
         </button>
+      </div>
+
+      <h2 className="text-lg font-medium text-neutral-400 mb-6">
+        찜한 영화
+      </h2>
+      <div className="mb-6">
+        <Favorites />
       </div>
 
       <h2 className="text-lg font-medium text-neutral-400 mb-6">

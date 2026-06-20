@@ -4,6 +4,7 @@ import { searchMovies } from "../api/tmdbApi";
 const useStore = create((set, get) => ({
     query: "",
     movies: [],
+    favorites: [],
 
     setQuery: (query) => set({ query }),
 
@@ -16,6 +17,17 @@ const useStore = create((set, get) => ({
         } catch (e) {
             console.error(e);
         } 
+    },
+
+    toggleFavorite: (movie) => {
+        const { favorites } = get();
+        const exist = favorites.find((m) => m.id === movie.id);
+
+        if (exist) {
+            set({ favorites: favorites.filter((m) => m.id !== movie.id) });
+        } else {
+            set({ favorites: [...favorites, movie] });
+        }
     },
 }))
 
