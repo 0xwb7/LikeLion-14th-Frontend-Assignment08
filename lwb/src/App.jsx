@@ -29,7 +29,7 @@ function App() {
 
         <button
           onClick={handleSearch}
-          className="bg-red-600 px-4 rounded"
+          className="bg-red-600 px-4 rounded-lg py-2"
         >
           검색
         </button>
