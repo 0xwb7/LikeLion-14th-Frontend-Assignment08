@@ -1,15 +1,26 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { searchMovies } from "./api/tmdbApi";
 import useStore from "./store/store";
 import MovieCard from "./components/MovieCard";
 import Favorites from "./components/Favorites"
 
 function App() {
   const [input, setInput] = useState("");
-  const { movies, setQuery, fetchMovies } = useStore();
+  const { query, setQuery } = useStore();
 
-  const handleSearch = async () => {
+  const {
+    data: movies = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["movies", query],
+    queryFn: () => searchMovies(query),
+    enabled: !!query,
+  });
+
+  const handleSearch = () => {
     setQuery(input);
-    await fetchMovies();
   };
 
   return (
@@ -46,7 +57,10 @@ function App() {
       <h2 className="text-lg font-medium text-neutral-400 mb-6">
         검색 결과
       </h2>
-      
+
+      {isLoading && <p className="text-neutral-400">로딩중...</p>}
+      {isError && <p className="text-red-500">에러가 발생했습니다.</p>}
+
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
